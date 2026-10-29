@@ -211,3 +211,10 @@ test("CLI: shelve, list and hook with a temp HOME", () => {
   assert.match(broken.stderr, /not valid JSON/);
   assert.equal(run(["shelve", "gsd-next"]).status, 1);
 });
+
+test("run from the home folder, each skill is listed once", () => {
+  const { home, locations } = sandbox();
+  addSkill(locations.userSkills, "gsd-plan", "name: gsd-plan\ndescription: Plan");
+  const atHome = paths({ home, cwd: home });
+  assert.deepEqual(shelve(atHome, "gsd-*"), shelve(locations, "gsd-*"));
+});
