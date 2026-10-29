@@ -1,0 +1,17 @@
+{
+  "name": "skill-shelf",
+  "version": "0.1.0",
+  "description": "Claude Code plugin that keeps rarely used skills out of context and reachable through one index skill",
+  "type": "module",
+  "bin": {
+    "skill-shelf": "bin/skill-shelf.js"
+  },
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "Apache-2.0",
+  "private": true
+}

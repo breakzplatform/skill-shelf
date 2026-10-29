@@ -1,0 +1,12 @@
+{
+  "name": "skill-shelf",
+  "version": "0.1.0",
+  "description": "Keep rarely used skills out of Claude's context and reachable through one index skill",
+  "author": {
+    "name": "Joselito",
+    "url": "https://github.com/breakzplatform"
+  },
+  "repository": "https://github.com/breakzplatform/skill-shelf",
+  "license": "Apache-2.0",
+  "keywords": ["skills", "context", "skillOverrides"]
+}

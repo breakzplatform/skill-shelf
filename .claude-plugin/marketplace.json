@@ -1,0 +1,14 @@
+{
+  "name": "skill-shelf",
+  "description": "skill-shelf: keep rarely used Claude Code skills out of context",
+  "owner": {
+    "name": "Joselito"
+  },
+  "plugins": [
+    {
+      "name": "skill-shelf",
+      "source": "./",
+      "description": "Keep rarely used skills out of Claude's context and reachable through one index skill"
+    }
+  ]
+}
