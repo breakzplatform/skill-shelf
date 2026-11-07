@@ -112,11 +112,6 @@ Settings files are written atomically and through symlinks. A settings file that
 - Project skills are read from `.claude/skills` in the current directory only, not from parent directories.
 - `suggest` counts what the transcripts record. Skills used from other machines, or in transcripts already cleaned up (`cleanupPeriodDays`), are not counted.
 
-## Related projects
-
-- [jev-skill-gate](https://github.com/ShivamPansuriya/jev-skill-gate) (MIT) scores every skill against the current project at session start, with TypeSafe's Jev or a local TF-IDF scorer, and writes `skillOverrides` (`on`, `name-only`, `user-invocable-only`, never `off`), project-local by default. It answers "is this skill relevant here?"; skill-shelf answers "do I use this skill at all?" and keeps the hidden ones reachable. They can run together with care: jev-skill-gate does not touch overrides it did not write, skill-shelf's hook skips skills that already have an entry, and skills jev-skill-gate sets to `user-invocable-only` show up in skill-shelf's index. A skill both tools manage ends up with whatever was written last, and jev-skill-gate's project-local entries win over skill-shelf's user-level ones, so give each skill to one tool.
-- [SkillPort](https://github.com/gotalab/skillport) (MIT) installs and validates skills and serves them through an MCP server with search and load tools, so the agent only holds metadata until it loads a skill. It replaces the native listing instead of trimming it.
-
 ## License
 
 Apache-2.0. See LICENSE and NOTICE.
