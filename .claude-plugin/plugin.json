@@ -1,6 +1,6 @@
 {
   "name": "skill-shelf",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Keep rarely used skills out of Claude's context and reachable through one index skill",
   "author": {
     "name": "Joselito",
