@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import fs from "node:fs";
 import { paths, reconcile, registerSession, renderIndex, renderList, shelve, unshelve } from "../lib/shelf.js";
+import { changeCommands, plannedChanges, renderSuggestion, suggest } from "../lib/suggest.js";
 
 const USAGE = `Usage:
   skill-shelf shelve <name|glob>... [--name-only] [--project]
@@ -10,6 +11,9 @@ const USAGE = `Usage:
       bring them back (skillOverrides "on")
   skill-shelf list                 patterns, shelved and name-only skills
   skill-shelf index                markdown index of shelved skills
+  skill-shelf suggest [--days N] [--often N] [--apply] [--project]
+      propose a level per skill from your transcripts (default: last 30 days;
+      3+ uses on, 1-2 name-only, none off); --apply makes the changes
   skill-shelf hook                 SessionStart: shelve new installs matching
                                    patterns and write this session's index
 
@@ -17,8 +21,8 @@ const USAGE = `Usage:
 ~/.claude/settings.json. A glob without --project is also saved as a pattern, with
 its level, so skills installed later that match it start shelved.`;
 
-const FLAGS = new Set(["--project", "--name-only"]);
-const VALUE_OPTIONS = new Set();
+const FLAGS = new Set(["--project", "--name-only", "--apply"]);
+const VALUE_OPTIONS = new Set(["--days", "--often"]);
 
 function parseArguments(argv) {
   const flags = new Set();
@@ -71,6 +75,20 @@ function main(argv) {
     case "index":
       console.log(renderIndex(paths()));
       return;
+    case "suggest": {
+      const locations = paths();
+      const result = suggest(locations, options);
+      console.log(renderSuggestion(result, { project }));
+      if (!flags.has("--apply")) return;
+      const groups = plannedChanges(result);
+      for (const name of groups.off) shelve(locations, name, { project });
+      for (const name of groups["name-only"]) shelve(locations, name, { project, level: "name-only" });
+      for (const name of groups.on) unshelve(locations, name, { project });
+      if (changeCommands(groups, { project }).length > 0) {
+        console.log("\nApplied. Sessions started from now on see the new listing.");
+      }
+      return;
+    }
     case "hook": {
       const input = readHookInput();
       const locations = paths({ cwd: input.cwd || process.cwd() });

@@ -153,4 +153,5 @@ test("CLI: several names at once, --name-only, and option errors", () => {
   assert.deepEqual(readOverrides(locations.userSettings), { one: "name-only", two: "name-only" });
   assert.equal(cli(home, cwd, ["unshelve", "one", "--name-only"]).status, 1);
   assert.match(cli(home, cwd, ["shelve", "one", "--light"]).stderr, /unknown option --light/);
+  assert.match(cli(home, cwd, ["suggest", "--days", "zero"]).stderr, /positive whole number/);
 });
